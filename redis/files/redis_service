@@ -4,12 +4,11 @@
 # author fqxiao
 
 PATH=/usr/local/bin:/sbin:/usr/bin:/bin
-REDISPORT=6379
+REDISPORT={{PORT}}
 EXEC=/usr/local/bin/redis-server
 REDIS_CLI=/usr/local/bin/redis-cli
-   
-PIDFILE=/var/run/redis_$REDISPORT.pid
-CONF="/usr/local/redis/redis_6379.conf"
+PIDFILE={{REDIS_HOME}}/redis-{{VERSION}}/pid/redis-{{PORT}}.pid
+CONF="{{REDIS_HOME}}/redis-{{PORT}}.conf"
    
 case "$1" in
     start)

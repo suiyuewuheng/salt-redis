@@ -2,6 +2,10 @@ include:
    - redis.install
    - redis.conf
 
+{% set REDIS_HOME = '/usr/local/redis' %}
+{% set PORT = '6379' %}
+{% set VERSION = '5.0.5' %}
+
 service_file:
   file.managed:
    - name: /etc/init.d/redis
@@ -9,8 +13,11 @@ service_file:
    - user: root
    - group: root
    - mode: 755
-   - unless:
-     - test -e /etc/init.d/redis
+   - template: jinja
+   - defaults:
+     VERSION: {{VERSION}}
+     REDIS_HOME: {{REDIS_HOME}}
+     PORT: {{PORT}}
 
 redis_chkconfig:
   cmd.run:
@@ -23,5 +30,5 @@ redis_service_start:
    - name: redis
    - enable: True
    - reload: True
-   - watch:
-     - file: service_file
+   - require:
+     - cmd: redis_chkconfig
